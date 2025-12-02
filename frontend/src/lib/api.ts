@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8001'
+const API_BASE_URL = 'http://localhost:8000'
 
 export async function fetchView(viewName: string) {
   const response = await fetch(`${API_BASE_URL}/api/views/${viewName}`)
