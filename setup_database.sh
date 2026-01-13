@@ -76,3 +76,4 @@ echo "Set: MYSQL_PASSWORD=$NEW_PASSWORD"
 echo ""
 echo "If you set an empty password, use: MYSQL_PASSWORD="
 
+

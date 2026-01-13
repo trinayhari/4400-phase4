@@ -200,7 +200,7 @@ Ensure that all input parameters are non-null, and that a patient with the given
 SSN does not already exist. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists add_patient;
-delimiter /​/
+delimiter //
 create procedure add_patient (
 	in ip_ssn varchar(40),
     in ip_first_name varchar(100),
@@ -228,7 +228,7 @@ sp_main: begin
 
     insert into patient(ssn, funds, contact)
     values (ip_ssn, ip_funds, ip_contact);
-end /​/
+end //
 delimiter ;
 
 -- [7] record_symptom()
@@ -239,7 +239,7 @@ patient, date, and time. Ensure that the same symptom is not already recorded fo
 that exact appointment. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists record_symptom;
-delimiter /​/
+delimiter //
 create procedure record_symptom (
 	in ip_patientId varchar(40),
     in ip_numDays int,
@@ -275,7 +275,7 @@ sp_main: begin
     
     insert into symptom(symptomType, numDays, patientId, apptDate, apptTime)
     values (ip_symptomType, ip_numDays, ip_patientId, ip_apptDate, ip_apptTime);
-end /​/
+end //
 delimiter ;
 
 -- [8] book_appointment()
@@ -430,7 +430,7 @@ Department ID references an existing department. Ensure that the staff member is
 not already assigned to the department. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists add_staff_to_dept;
-delimiter /​/
+delimiter //
 create procedure add_staff_to_dept (
 	in ip_deptId integer,
     in ip_ssn char(11),
@@ -474,7 +474,7 @@ sp_main: begin
     insert into works_in(staffSsn, deptId)
     values (ip_ssn, ip_deptId);
 
-end /​/
+end //
 delimiter ;
 
 -- [11] add_funds()
@@ -484,7 +484,7 @@ added must be positive. Ensure that all input parameters are non-null and refere
 an existing patient. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists add_funds;
-delimiter /​/
+delimiter //
 create procedure add_funds (
 	in ip_ssn char(11),
     in ip_funds integer
@@ -506,7 +506,7 @@ sp_main: begin
     SET funds = + ip_funds + funds
     WHERE ssn = ip_ssn;
 
-end /​/
+end //
 delimiter ;
 
 -- [12] assign_nurse_to_room()
@@ -566,7 +566,7 @@ provided room number. Ensure that all input parameters are non-null and referenc
 an existing patient and room. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists assign_room_to_patient;
-delimiter /​/
+delimiter //
 create procedure assign_room_to_patient (
     in ip_ssn char(11),
     in ip_roomNumber int,
@@ -605,7 +605,7 @@ sp_main: begin
 
     update room set occupiedBy = ip_ssn where roomNumber = ip_roomNumber;
 
-end /​/
+end //
 delimiter ;
 
 -- [14] assign_doctor_to_appointment()
@@ -616,7 +616,7 @@ have commitments to other patients at the exact appointment time. Ensure that al
 parameters are non-null and reference an existing doctor and appointment. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists assign_doctor_to_appointment;
-delimiter /​/
+delimiter //
 create procedure assign_doctor_to_appointment (
 	in ip_patientId char(11),
     in ip_apptDate date,
@@ -675,7 +675,7 @@ sp_main: begin
     insert into appt_assignment(patientId, apptDate, apptTime, doctorId)
     values (ip_patientId, ip_apptDate, ip_apptTime, ip_doctorId);
 
-end /​/
+end //
 delimiter ;
 
 -- [15] manage_department()
@@ -690,7 +690,7 @@ and reference an existing staff member and department.
 */
 -- -----------------------------------------------------------------------------
 drop procedure if exists manage_department;
-delimiter /​/
+delimiter //
 create procedure manage_department (
 	in ip_ssn char(11),
     in ip_deptId int
@@ -747,7 +747,7 @@ sp_main: begin
     SET manager = ip_ssn
     WHERE deptId = ip_deptId;
 
-end /​/
+end //
 delimiter ;
 
 -- [16] release_room()
@@ -756,7 +756,7 @@ delimiter ;
 the input room number is non-null and references an existing room.  */
 -- -----------------------------------------------------------------------------
 drop procedure if exists release_room;
-delimiter /​/
+delimiter //
 create procedure release_room (
     in ip_roomNumber int
 )
@@ -767,7 +767,7 @@ sp_main: begin
     
     update room
     set occupiedBy = null where roomNumber = ip_roomNumber;
-end /​/
+end //
 delimiter ;
 
 -- [17] remove_patient()
@@ -779,7 +779,7 @@ the database. Ensure all data relevant to this patient is removed. Ensure that t
 input SSN is non-null and references an existing patient. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists remove_patient;
-delimiter /​/
+delimiter //
 create procedure remove_patient (
 	in ip_ssn char(11)
 )
@@ -812,7 +812,7 @@ sp_main: begin
     delete from person where ssn = ip_ssn;
 
     
-end /​/
+end //
 delimiter ;
 
 -- remove_staff()
@@ -829,7 +829,7 @@ If the staff member is not a patient, then they are completely removed from
 the database. All data relevant to this staff member is removed. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists remove_staff;
-delimiter /​/
+delimiter //
 create procedure remove_staff (
 	in ip_ssn char(11)
 )
@@ -912,7 +912,7 @@ sp_main: begin
     
     -- remove staff member from person table
 	delete from person where ssn = ip_ssn;
-end /​/
+end //
 delimiter ;
 
 -- [18] remove_staff_from_dept()
@@ -926,7 +926,7 @@ the given department. Ensure that the department will have at least one staff me
 remaining after this staff member is removed. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists remove_staff_from_dept;
-delimiter /​/
+delimiter //
 create procedure remove_staff_from_dept (
 	in ip_ssn char(11),
     in ip_deptId integer
@@ -955,7 +955,7 @@ sp_main: begin
         call remove_staff(ip_ssn);
     end if;
    
-end /​/
+end //
 delimiter ;
 
 -- [19] complete_appointment()
@@ -966,7 +966,7 @@ from the system, and the patient should be charged accordingly. Ensure that all
 input parameters are non-null and that they reference an existing appointment. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists complete_appointment;
-delimiter /​/
+delimiter //
 create procedure complete_appointment (
 	in ip_patientId char(11),
     in ip_apptDate DATE, 
@@ -990,7 +990,7 @@ sp_main: begin
     delete from appointment where patientId = ip_patientId and apptDate = ip_apptDate and apptTime = ip_apptTime;
     
    
-end /​/
+end //
 delimiter ;
 
 -- [20] complete_orders()
@@ -1003,7 +1003,7 @@ should be charged accordingly. Ensure that there is a non-null number of orders
 passed in, and complete as many as possible up to that limit. */
 -- -----------------------------------------------------------------------------
 drop procedure if exists complete_orders;
-delimiter /​/
+delimiter //
 create procedure complete_orders (
 	in ip_num_orders integer
 )
@@ -1028,5 +1028,5 @@ sp_main: begin
         set ip_num_orders = ip_num_orders - 1;
 	end while;
         
-end /​/
+end //
 delimiter ;

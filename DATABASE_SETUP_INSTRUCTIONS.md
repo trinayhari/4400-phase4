@@ -70,3 +70,4 @@ If you want to use an empty password (simpler for development):
 6. Run SQL: `mysql -u root er_hospital_management < Phase_III_SP_Views_Template5finale.sql`
 7. Set `.env`: `MYSQL_PASSWORD=` (empty)
 
+
